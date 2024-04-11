@@ -1,0 +1,81 @@
+défi 1 : js
+
+fetch('https://637d41d916c1b892ebca9a5a.mockapi.io/api/discs')
+  .then(response => response.json())
+  .then(data => {
+    const filteredAlbums = data.filter(album => album.id !== "7");
+    displayAlbums(filteredAlbums);
+  })
+  .catch(error => console.error('Erreur lors du chargement des albums :', error));
+
+function displayAlbums(albums) {
+  const albumList = document.getElementById('album-list');
+  albums.forEach(album => {
+    const albumItem = document.createElement('li');
+    const albumLink = document.createElement('a');
+    albumLink.textContent = album.title;
+    albumLink.href = `product.html?id=${album.id}`;
+    albumItem.appendChild(albumLink);
+    albumList.appendChild(albumItem);
+  });
+}
+
+
+défi 2 : js
+
+const urlParams = new URLSearchParams(window.location.search);
+const albumId = urlParams.get('id');
+
+fetch(`https://637d41d916c1b892ebca9a5a.mockapi.io/api/discs/${albumId}`)
+  .then(response => response.json())
+  .then(album => displayAlbum(album))
+  .catch(error => console.error('Erreur lors du chargement de l\'album :', error));
+
+function displayAlbum(album) {
+  const albumContainer = document.getElementById('album-details');
+  const albumTitle = document.createElement('h2');
+  albumTitle.textContent = album.title;
+  const albumArtist = document.createElement('p');
+  albumArtist.textContent = `Artist: ${album.artist}`;
+  const albumRelease = document.createElement('p');
+  albumRelease.textContent = `Release Year: ${album.release_year}`;
+  const albumCover = document.createElement('img');
+  albumCover.src = album.cover;
+  albumCover.alt = `${album.title} Album Cover`;
+
+  albumContainer.appendChild(albumTitle);
+  albumContainer.appendChild(albumArtist);
+  albumContainer.appendChild(albumRelease);
+  albumContainer.appendChild(albumCover);
+}
+
+défi 3 html
+
+<form id="contact-form">
+  <input type="text" id="name" placeholder="Nom">
+  <input type="email" id="email" placeholder="Email">
+  <textarea id="message" placeholder="Message"></textarea>
+  <button type="submit">Envoyer</button>
+</form>
+
+<script>
+const form = document.getElementById('contact-form');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if (name === '' || email === '' || message === '') {
+    alert('Veuillez remplir tous les champs.');
+    return;
+  }
+
+  // Vous pouvez ajouter d'autres validations ici, comme la vérification du format de l'email
+
+  // Si tous les champs sont valides, vous pouvez soumettre le formulaire
+  // form.submit();
+});
+</script>
